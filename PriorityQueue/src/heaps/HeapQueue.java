@@ -1,7 +1,6 @@
 package heaps;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.NoSuchElementException;
 
 public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQueue<P, V> {
@@ -34,48 +33,10 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         this.triplets = new ArrayList<>();
     }
 
-    private void heapifyUp(int index) {
-        while (index > 0) {
-            int parentIndex = (index - 1) / 2;
-            if (triplets.get(index).compareTo(triplets.get(parentIndex)) > 0) {
-                Collections.swap(triplets, index, parentIndex);
-                index = parentIndex;
-            } else {
-                break;
-            }
-        }
-    }
-
-    private void heapifyDown(int index) {
-        int size = triplets.size();
-        while (true) {
-            int leftChild = 2 * index + 1;
-            int rightChild = 2 * index + 2;
-            int largest = index;
-
-            if (leftChild < size && triplets.get(leftChild).compareTo(triplets.get(largest)) > 0) {
-                largest = leftChild;
-            }
-
-            if (rightChild < size && triplets.get(rightChild).compareTo(triplets.get(largest)) > 0) {
-                largest = rightChild;
-            }
-
-            if (largest != index) {
-                Collections.swap(triplets, index, largest);
-                index = largest;
-            } else {
-                break;
-            }
-        }
-    }
-
-    // TODO: Use .set() for ArrayList to make cost logarithmic
     @Override
     public void add(P priority, V value) {
-        Triplet<P, V> triplet = new Triplet<>(priority, nextTimeStamp++, value);
-        triplets.add(triplet);
-        heapifyUp(triplets.size() - 1);
+        triplets.add(new Triplet<>(priority, nextTimeStamp++, value));
+        heapifyUp();
     }
 
     @Override
@@ -84,9 +45,9 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
             throw new NoSuchElementException("Heap is empty");
         }
         V result = triplets.get(0).value;
-        Collections.swap(triplets, 0, triplets.size() - 1);
+        triplets.set(0, triplets.get(triplets.size() - 1));
         triplets.remove(triplets.size() - 1);
-        heapifyDown(0);
+        heapifyDown();
         return result;
     }
 
@@ -101,5 +62,54 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     @Override
     public int size() {
         return triplets.size();
+    }
+
+    private void swap(int index1, int index2) {
+        Triplet<P, V> temp = triplets.get(index1);
+        triplets.set(index1, triplets.get(index2));
+        triplets.set(index2, temp);
+    }
+
+    private void heapifyUp() {
+        int index = triplets.size() - 1;
+        while (index > 0) {
+            int parentIndex = (index - 1) / 2;
+            if (triplets.get(index).compareTo(triplets.get(parentIndex)) > 0) {
+                swap(index, parentIndex);
+                index = parentIndex;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void heapifyDown() {
+        int index = 0;
+        int size = triplets.size();
+        while (true) {
+            int largest = getMaxChildIndex(index, size);
+            if (largest != index) {
+                swap(index, largest);
+                index = largest;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private int getMaxChildIndex(int index, int size) {
+        int leftChild = 2 * index + 1;
+        int rightChild = 2 * index + 2;
+        int largest = index;
+
+        if (leftChild < size && triplets.get(leftChild).compareTo(triplets.get(largest)) > 0) {
+            largest = leftChild;
+        }
+
+        if (rightChild < size && triplets.get(rightChild).compareTo(triplets.get(largest)) > 0) {
+            largest = rightChild;
+        }
+
+        return largest;
     }
 }
