@@ -72,35 +72,36 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     private void heapifyUp() {
         int index = triplets.size() - 1;
+        Triplet<P, V> currentElement = triplets.get(index);
+
         while (index > 0) {
             int parentIndex = (index - 1) / 2;
-            if (triplets.get(index).compareTo(triplets.get(parentIndex)) > 0) {
-                swap(index, parentIndex);
-                index = parentIndex;
-            } else {
+            Triplet<P, V> parentElement = triplets.get(parentIndex);
+
+            if (currentElement.compareTo(parentElement) <= 0) {
                 break;
             }
+            swap(index, parentIndex);
+            index = parentIndex;
         }
     }
 
     private void heapifyDown() {
         int index = 0;
         int size = triplets.size();
-        while (true) {
-            int largest = getMaxChildIndex(index, size);
-            if (largest != index) {
-                swap(index, largest);
-                index = largest;
-            } else {
-                break;
-            }
+        int largest = getMaxChildIndex(index, size);
+
+        while (largest != index) {
+            swap(index, largest);
+            index = largest;
+            largest = getMaxChildIndex(index, size);
         }
     }
 
     private int getMaxChildIndex(int index, int size) {
+        int largest = index;
         int leftChild = 2 * index + 1;
         int rightChild = 2 * index + 2;
-        int largest = index;
 
         if (leftChild < size && triplets.get(leftChild).compareTo(triplets.get(largest)) > 0) {
             largest = leftChild;
