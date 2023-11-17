@@ -24,7 +24,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
             if (priorityDiff != 0) {
                 return priorityDiff;
             }
-            // Less timeStamp means that it was added before, so its priority is bigger
+            // Less timeStamp means that it was added before, so it has to be prioritized
             return Long.compare(other.timeStamp, this.timeStamp);
         }
     }
@@ -35,7 +35,8 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     @Override
     public void add(P priority, V value) {
-        triplets.add(new Triplet<>(priority, nextTimeStamp++, value));
+        Triplet<P, V> triplet = new Triplet<>(priority, nextTimeStamp++, value);
+        triplets.add(triplet);
         heapifyUp();
     }
 
