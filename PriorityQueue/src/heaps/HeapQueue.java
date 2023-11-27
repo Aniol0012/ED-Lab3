@@ -20,9 +20,9 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
         @Override
         public int compareTo(Triplet<P, V> other) {
-            int priorityDiff = this.priority.compareTo(other.priority);
-            if (priorityDiff != 0) {
-                return priorityDiff;
+            int priority = this.priority.compareTo(other.priority);
+            if (priority != 0) {
+                return priority;
             }
             // Less timeStamp means that it was added before, so it has to be prioritized
             return Long.compare(other.timeStamp, this.timeStamp);
@@ -37,7 +37,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     public void add(P priority, V value) {
         Triplet<P, V> triplet = new Triplet<>(priority, nextTimeStamp++, value);
         triplets.add(triplet);
-        heapifyUp();
+        heapUp();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         V result = triplets.get(0).value;
         triplets.set(0, triplets.get(triplets.size() - 1));
         triplets.remove(triplets.size() - 1);
-        heapifyDown();
+        heapDown();
         return result;
     }
 
@@ -71,7 +71,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         triplets.set(index2, temp);
     }
 
-    private void heapifyUp() {
+    private void heapUp() {
         int index = triplets.size() - 1;
         Triplet<P, V> currentElement = triplets.get(index);
 
@@ -87,7 +87,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         }
     }
 
-    private void heapifyDown() {
+    private void heapDown() {
         int index = 0;
         int size = triplets.size();
         int largest = getMaxChildIndex(index, size);
@@ -100,16 +100,17 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     }
 
     private int getMaxChildIndex(int index, int size) {
+        int maxIndex = index;
         int leftChild = 2 * index + 1;
         int rightChild = 2 * index + 2;
 
         if (leftChild < size && triplets.get(leftChild).compareTo(triplets.get(index)) > 0) {
-            index = leftChild;
+            maxIndex = leftChild;
         }
 
         if (rightChild < size && triplets.get(rightChild).compareTo(triplets.get(index)) > 0) {
-            index = rightChild;
+            maxIndex = rightChild;
         }
-        return index;
+        return maxIndex;
     }
 }
