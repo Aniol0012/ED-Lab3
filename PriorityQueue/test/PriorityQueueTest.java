@@ -51,16 +51,36 @@ public class PriorityQueueTest {
     }
 
     @Test
+    void size_should_return_correct_size() {
+        HeapQueue<Integer, String> queue = new HeapQueue<>();
+        queue.add(1, "One");
+        queue.add(2, "Two");
+        queue.add(3, "Three");
+        assertEquals(3, queue.size());
+    }
+
+    @Test
     void add_should_keep_heap_property() {
         HeapQueue<Integer, String> queue = new HeapQueue<>();
-        queue.add(3, "Three");
-        queue.add(1, "One");
         queue.add(4, "Four");
+        queue.add(3, "Three");
         queue.add(2, "Two");
+        queue.add(1, "One");
+
         assertEquals("Four", queue.remove());
         assertEquals("Three", queue.remove());
         assertEquals("Two", queue.remove());
         assertEquals("One", queue.remove());
+    }
+
+    @Test
+    void remove_should_prioritize_lower_timestamp_on_priority_tie() {
+        HeapQueue<Integer, String> queue = new HeapQueue<>();
+        queue.add(1, "One");
+        queue.add(1, "Two");
+
+        assertEquals("One", queue.remove());
+        assertEquals("Two", queue.remove());
     }
 }
 
