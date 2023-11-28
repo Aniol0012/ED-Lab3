@@ -24,7 +24,6 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
             if (priority != 0) {
                 return priority;
             }
-            // Less timeStamp means that it was added before, so it has to be prioritized
             return Long.compare(other.timeStamp, this.timeStamp);
         }
     }
