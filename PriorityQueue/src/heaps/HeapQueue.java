@@ -100,8 +100,8 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     private int getMaxChildIndex(int index, int size) {
         int maxIndex = index;
-        int leftChild = 2 * index + 1;
-        int rightChild = 2 * index + 2;
+        int leftChild = 2 * index;
+        int rightChild = 2 * index + 1;
 
         if (leftChild < size && triplets.get(leftChild).compareTo(triplets.get(index)) > 0) {
             maxIndex = leftChild;
