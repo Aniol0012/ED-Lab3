@@ -107,13 +107,10 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         boolean hasRightChild = rightChildIndex < heapSize;
 
         if (!hasLeftChild) {
-            // No tiene hijos
             return parentIndex;
         } else if (!hasRightChild) {
-            // Solo tiene hijo izquierdo
             return leftChildIndex;
         } else {
-            // Tiene ambos hijos, devolver el de mayor valor
             Triplet<P, V> leftChild = triplets.get(leftChildIndex);
             Triplet<P, V> rightChild = triplets.get(rightChildIndex);
 
