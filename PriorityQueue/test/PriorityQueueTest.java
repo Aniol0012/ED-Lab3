@@ -73,6 +73,7 @@ public class PriorityQueueTest {
         assertEquals("One", queue.remove());
     }
 
+
     @Test
     void remove_should_prioritize_lower_timestamp_on_priority_tie() {
         HeapQueue<Integer, String> queue = new HeapQueue<>();
@@ -81,6 +82,16 @@ public class PriorityQueueTest {
 
         assertEquals("One", queue.remove());
         assertEquals("Two", queue.remove());
+    }
+
+    @Test
+    void test1() {
+        HeapQueue<Integer, String> queue = new HeapQueue<>();
+        queue.add(4, "Four");
+        queue.add(3, "Three");
+
+        assertEquals("Four", queue.element());
+        assertEquals("Three", queue.remove());
     }
 }
 
