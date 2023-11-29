@@ -1,3 +1,5 @@
+package heaps;
+
 import heaps.HeapQueue;
 import org.junit.jupiter.api.Test;
 

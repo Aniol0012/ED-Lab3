@@ -100,8 +100,8 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     }
 
     private int getMaxChildIndex(int parentIndex, int heapSize) {
-        int leftChildIndex = 2 * parentIndex;
-        int rightChildIndex = 2 * parentIndex + 1;
+        int leftChildIndex = leftIndex(parentIndex);
+        int rightChildIndex = rightIndex(parentIndex);
 
         boolean hasLeftChild = leftChildIndex < heapSize;
         boolean hasRightChild = rightChildIndex < heapSize;
@@ -117,4 +117,22 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
             return leftChild.compareTo(rightChild) > 0 ? leftChildIndex : rightChildIndex;
         }
     }
+
+    static int parentIndex(int i) {
+        return i / 2;
+    }
+
+    static int leftIndex(int i) {
+        return 2 * i;
+    }
+
+    static int rightIndex(int i) {
+        return 2 * i + 1;
+    }
+
+    boolean exists(int index) {
+        return 1 <= index && index < triplets.size();
+    }
+
+
 }
