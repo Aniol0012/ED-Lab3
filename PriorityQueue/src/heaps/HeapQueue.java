@@ -35,6 +35,9 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     @Override
     public void add(P priority, V value) {
+        if (priority == null || value == null) {
+            throw new IllegalArgumentException("Priority and value must not be null");
+        }
         Triplet<P, V> triplet = new Triplet<>(priority, nextTimeStamp++, value);
         triplets.add(triplet);
         heapUp();
@@ -44,7 +47,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     public V remove() {
         V prevRoot = element();
         int size = size();
-        triplets.set(1, triplets.get(size));
+        triplets.set(1, getTriplet(size));
         triplets.remove(size);
         heapDown();
         return prevRoot;
@@ -55,7 +58,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         if (size() < 1) {
             throw new NoSuchElementException("Heap is empty");
         }
-        return triplets.get(1).value;
+        return getTriplet(1).value;
     }
 
     @Override
@@ -64,18 +67,18 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     }
 
     private void swap(int index1, int index2) {
-        Triplet<P, V> temp = triplets.get(index1);
-        triplets.set(index1, triplets.get(index2));
+        Triplet<P, V> temp = getTriplet(index1);
+        triplets.set(index1, getTriplet(index2));
         triplets.set(index2, temp);
     }
 
     private void heapUp() {
         int index = size();
-        Triplet<P, V> currentElement = triplets.get(index);
+        Triplet<P, V> currentElement = getTriplet(index);
 
         while (index > 1) {
             int parentIndex = parentIndex(index);
-            Triplet<P, V> parentElement = triplets.get(parentIndex);
+            Triplet<P, V> parentElement = getTriplet(parentIndex);
 
             if (currentElement.compareTo(parentElement) <= 0) {
                 break;
@@ -100,11 +103,11 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         int rightChildIndex = rightIndex(parentIndex);
         int largest = parentIndex;
 
-        if (exists(leftChildIndex) && triplets.get(leftChildIndex).compareTo(triplets.get(largest)) > 0) {
+        if (exists(leftChildIndex) && getTriplet(leftChildIndex).compareTo(getTriplet(largest)) > 0) {
             largest = leftChildIndex;
         }
 
-        if (exists(rightChildIndex) && triplets.get(rightChildIndex).compareTo(triplets.get(largest)) > 0) {
+        if (exists(rightChildIndex) && getTriplet(rightChildIndex).compareTo(getTriplet(largest)) > 0) {
             largest = rightChildIndex;
         }
 
@@ -128,5 +131,8 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         return 1 <= index && index <= size();
     }
 
-
+    private Triplet<P, V> getTriplet(int index) {
+        assert exists(index);
+        return triplets.get(index);
+    }
 }
