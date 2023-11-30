@@ -91,14 +91,14 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     private void heapDown() {
         int index = 1;
         while (exists(index)) {
-            int largestChildIndex = getMaxChildPriority(index);
+            int largestChildIndex = getIndexOfMaxPriorityChild(index);
             if (largestChildIndex == index) break;
             swap(index, largestChildIndex);
             index = largestChildIndex;
         }
     }
 
-    private int getMaxChildPriority(int parentIndex) {
+    private int getIndexOfMaxPriorityChild(int parentIndex) {
         int leftChildIndex = leftIndex(parentIndex);
         int rightChildIndex = rightIndex(parentIndex);
         int largest = parentIndex;
@@ -113,7 +113,6 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
         return largest;
     }
-
 
     static int parentIndex(int i) {
         return i / 2;
