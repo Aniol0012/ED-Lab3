@@ -30,6 +30,7 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     public HeapQueue() {
         this.triplets = new ArrayList<>();
+        this.triplets.add(null);
     }
 
     @Override
@@ -41,27 +42,25 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     @Override
     public V remove() {
-        if (triplets.isEmpty()) {
-            throw new NoSuchElementException("Heap is empty");
-        }
-        V result = triplets.get(0).value;
-        triplets.set(0, triplets.get(triplets.size() - 1));
-        triplets.remove(triplets.size() - 1);
+        V prevRoot = element();
+        int size = size();
+        triplets.set(1, triplets.get(size));
+        triplets.remove(size);
         heapDown();
-        return result;
+        return prevRoot;
     }
 
     @Override
     public V element() {
-        if (triplets.isEmpty()) {
+        if (size() < 1) {
             throw new NoSuchElementException("Heap is empty");
         }
-        return triplets.get(0).value;
+        return triplets.get(1).value;
     }
 
     @Override
     public int size() {
-        return triplets.size();
+        return triplets.size() - 1;
     }
 
     private void swap(int index1, int index2) {
@@ -71,11 +70,11 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     }
 
     private void heapUp() {
-        int index = triplets.size() - 1;
+        int index = size();
         Triplet<P, V> currentElement = triplets.get(index);
 
-        while (index > 0) {
-            int parentIndex = (index - 1) / 2;
+        while (index > 1) {
+            int parentIndex = parentIndex(index);
             Triplet<P, V> parentElement = triplets.get(parentIndex);
 
             if (currentElement.compareTo(parentElement) <= 0) {
@@ -87,29 +86,47 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     }
 
     private void heapDown() {
-        int index = 0;
-        int size = triplets.size();
-        int largest = getMaxChildIndex(index, size);
-
-        while (largest != index) {
-            swap(index, largest);
-            index = largest;
-            largest = getMaxChildIndex(index, size);
+        int index = 1;
+        while (exists(index)) {
+            int largestChildIndex = getMaxChildPriority(index);
+            if (largestChildIndex == index) break;
+            swap(index, largestChildIndex);
+            index = largestChildIndex;
         }
     }
 
-    private int getMaxChildIndex(int index, int size) {
-        int maxIndex = index;
-        int leftChild = 2 * index;
-        int rightChild = 2 * index + 1;
+    private int getMaxChildPriority(int parentIndex) {
+        int leftChildIndex = leftIndex(parentIndex);
+        int rightChildIndex = rightIndex(parentIndex);
+        int largest = parentIndex;
 
-        if (leftChild < size && triplets.get(leftChild).compareTo(triplets.get(index)) > 0) {
-            maxIndex = leftChild;
+        if (exists(leftChildIndex) && triplets.get(leftChildIndex).compareTo(triplets.get(largest)) > 0) {
+            largest = leftChildIndex;
         }
 
-        if (rightChild < size && triplets.get(rightChild).compareTo(triplets.get(index)) > 0) {
-            maxIndex = rightChild;
+        if (exists(rightChildIndex) && triplets.get(rightChildIndex).compareTo(triplets.get(largest)) > 0) {
+            largest = rightChildIndex;
         }
-        return maxIndex;
+
+        return largest;
     }
+
+
+    static int parentIndex(int i) {
+        return i / 2;
+    }
+
+    static int leftIndex(int i) {
+        return 2 * i;
+    }
+
+    static int rightIndex(int i) {
+        return 2 * i + 1;
+    }
+
+    boolean exists(int index) {
+        return 1 <= index && index <= size();
+    }
+
+
 }
