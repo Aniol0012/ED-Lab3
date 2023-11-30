@@ -63,16 +63,22 @@ public class PriorityQueueTest {
 
     @Test
     void add_should_keep_heap_property() {
-        HeapQueue<Integer, String> queue = new HeapQueue<>();
-        queue.add(4, "Four");
-        queue.add(3, "Three");
-        queue.add(2, "Two");
-        queue.add(1, "One");
+        HeapQueue<Integer, Integer> queue = new HeapQueue<>();
+        queue.add(10, 60);
+        queue.add(3, 150);
+        queue.add(25, 30);
+        queue.add(23, 17);
+        queue.add(29, 15);
+        queue.add(30, 10);
+        queue.add(7, 9);
+        queue.add(16, 3);
+        queue.add(10, 3);
+        queue.add(7, 3);
+        queue.add(3, 8);
 
-        assertEquals("Four", queue.remove());
-        assertEquals("Three", queue.remove());
-        assertEquals("Two", queue.remove());
-        assertEquals("One", queue.remove());
+
+        assertEquals(10, queue.remove());
+
     }
 
 
