@@ -73,28 +73,32 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
     }
 
     private void heapUp() {
-        int index = size();
-        Triplet<P, V> currentElement = getTriplet(index);
+        int currentIndex = size();
+        Triplet<P, V> currentElement = getTriplet(currentIndex);
 
-        while (index > 1) {
-            int parentIndex = parentIndex(index);
+        while (currentIndex > 1) {
+            int parentIndex = parentIndex(currentIndex);
             Triplet<P, V> parentElement = getTriplet(parentIndex);
 
             if (currentElement.compareTo(parentElement) <= 0) {
                 break;
             }
-            swap(index, parentIndex);
-            index = parentIndex;
+            swap(currentIndex, parentIndex);
+            currentIndex = parentIndex;
         }
     }
 
     private void heapDown() {
-        int index = 1;
-        while (exists(index)) {
-            int largestChildIndex = getIndexOfMaxPriorityChild(index);
-            if (largestChildIndex == index) break;
-            swap(index, largestChildIndex);
-            index = largestChildIndex;
+        int currentIndex = 1;
+        int largestChildIndex;
+
+        while (exists(currentIndex)) {
+            largestChildIndex = getIndexOfMaxPriorityChild(currentIndex);
+            if (largestChildIndex == currentIndex) {
+                break;
+            }
+            swap(currentIndex, largestChildIndex);
+            currentIndex = largestChildIndex;
         }
     }
 
@@ -110,7 +114,6 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         if (exists(rightChildIndex) && getTriplet(rightChildIndex).compareTo(getTriplet(maxPriorityIndex)) > 0) {
             maxPriorityIndex = rightChildIndex;
         }
-
         return maxPriorityIndex;
     }
 
