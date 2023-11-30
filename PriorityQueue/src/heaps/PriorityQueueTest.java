@@ -90,5 +90,19 @@ public class PriorityQueueTest {
         assertEquals(true, heapQueue.remove());
         assertEquals(false, heapQueue.remove());
     }
+
+    @Test
+    void add_null_priority_should_throw_ia_exception() {
+        HeapQueue<Integer, Integer> heapQueue = new HeapQueue<>();
+
+        assertThrows(IllegalArgumentException.class, () -> heapQueue.add(null, 100));
+    }
+
+    @Test
+    void add_null_value_should_throw_ia_exception() {
+        HeapQueue<Integer, Integer> heapQueue = new HeapQueue<>();
+
+        assertThrows(IllegalArgumentException.class, () -> heapQueue.add(1, null));
+    }
 }
 
