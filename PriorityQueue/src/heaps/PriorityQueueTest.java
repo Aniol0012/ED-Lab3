@@ -87,8 +87,8 @@ public class PriorityQueueTest {
         heapQueue.add(1, true);
         heapQueue.add(1, false);
 
-        assertEquals(true, heapQueue.remove());
-        assertEquals(false, heapQueue.remove());
+        assertTrue(heapQueue.remove());
+        assertFalse(heapQueue.remove());
     }
 
     @Test
