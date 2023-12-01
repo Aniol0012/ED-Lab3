@@ -45,14 +45,15 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
 
     @Override
     public V remove() {
-        V prevRoot = element();
+        V maxPriorityElement = element();
         int size = size();
         triplets.set(1, getTriplet(size));
         triplets.remove(size);
         heapDown();
-        return prevRoot;
+        return maxPriorityElement;
     }
 
+    // TODO: Check if timeStamp is the lowest
     @Override
     public V element() {
         if (size() < 1) {
