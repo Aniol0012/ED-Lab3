@@ -92,6 +92,21 @@ public class PriorityQueueTest {
     }
 
     @Test
+    void remove_should_prioritize_lower_timestamp_on_multiple_priority_tie() {
+        HeapQueue<Integer, Integer> heapQueue = new HeapQueue<>();
+        heapQueue.add(20, 100);
+        heapQueue.add(10, 200);
+        heapQueue.add(10, 300);
+
+        assertEquals(100, heapQueue.remove());
+        assertEquals(200, heapQueue.remove());
+
+        heapQueue.add(10, 400);
+
+        assertEquals(300, heapQueue.element());
+    }
+
+    @Test
     void add_null_priority_should_throw_ia_exception() {
         HeapQueue<Integer, Integer> heapQueue = new HeapQueue<>();
 
