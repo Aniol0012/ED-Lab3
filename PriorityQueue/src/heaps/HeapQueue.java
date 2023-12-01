@@ -53,7 +53,6 @@ public class HeapQueue<P extends Comparable<? super P>, V> implements PriorityQu
         return maxPriorityElement;
     }
 
-    // TODO: Check if timeStamp is the lowest
     @Override
     public V element() {
         if (size() < 1) {
