@@ -5,8 +5,7 @@ Estructura de Dades - Laboratori 3 UDL
 1. [Description](#description)
 2. [Installation](#installation)
 3. [Tests](#tests)
-4. [Usage](#usage)
-5. [Authors](#authors)
+4. [Authors](#authors)
 
 
 ## Description
@@ -23,19 +22,15 @@ Clone the repo:
 git clone https://github.com/Aniol0012/ED-Lab3.git
 ````
 
-<!--
+
 ## Tests
 
-There are 2 type of tests, one for `LinkedStack<E>` and the other one for `Partitions2`:
+There are 2 type of tests, one for `Triplets` and the other one for `HeapQueue`:
 
-- [LinkedStackTest](src/test/java/cat/udl/eps/ed/practica2/stack/LinkedStackTest.java)
-- [Partitions2Test](src/test/java/cat/udl/eps/ed/practica2/partitions/Partitions2Test.java)
+- [TripletTest](./PriorityQueue/src/heaps/TripletTest.java)
+- [HeapQueue](./PriorityQueue/src/heaps/PriorityQueueTest.java)
 
-## Usage
-### LinkedStack
-To utilize the `LinkedStack<E>`, you should import the class first and then you can create an instance of the stack and use its methods to add and remove elements.
 
--->
 
 ## Authors
 - [Aniol Serrano Ortega](https://github.com/Aniol0012)
