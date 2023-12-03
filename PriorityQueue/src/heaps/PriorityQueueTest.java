@@ -39,6 +39,7 @@ public class PriorityQueueTest {
         heapQueue.add(2, 200);
         heapQueue.add(1, 100);
         assertEquals(200, heapQueue.element());
+        assertEquals(200, heapQueue.element());
     }
 
     @Test
