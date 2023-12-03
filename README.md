@@ -11,7 +11,7 @@ Estructura de Dades - Laboratori 3 UDL
 
 ## Description
 
-This project implements a HeapQueue in Java for lab 3. 
+This project implements a HeapQueue in Java for lab 3. Check [report](./Informe_Lab3_Aniol_Hamza.pdf)
 <!-- You can check it in [LinkedStack](src/main/java/cat/udl/eps/ed/practica2/stack/LinkedStack.java) file. <br>
 It also calculates partitions of a number in [Partition2](src/main/java/cat/udl/eps/ed/practica2/partitions/Partitions2.java) file.
 -->
